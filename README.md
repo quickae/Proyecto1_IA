@@ -55,4 +55,4 @@ python crear_dataset.py
 
 ## Autor
 
-[Tu nombre]
+Luis Enrique Pereira
