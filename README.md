@@ -100,10 +100,7 @@ python -m pip install opencv-python numpy pandas scikit-learn joblib
 2. Generar dataset individual
 python crear_dataset.py
 
-3. Combinar datasets grupales
-python unir_datasets.py
-
-4. Entrenar modelos y exportar modelo final
+3. Entrenar modelos y exportar modelo final
 python entrenar_modelos.py
 
 Autor
