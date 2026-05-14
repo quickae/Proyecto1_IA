@@ -1,58 +1,111 @@
-# Detección de contaminaciones en imágenes mediante aprendizaje automático clásico
+# Proyecto 1 - Detección de contaminaciones en imágenes mediante aprendizaje automático clásico
 
 ## Descripción
 
-Este proyecto tiene como objetivo detectar la presencia de granos de arroz en imágenes de una superficie blanca, simulando una línea de producción. Se utiliza procesamiento de imágenes y aprendizaje automático clásico.
+Este proyecto tiene como objetivo detectar contaminaciones en una línea de producción simulada mediante técnicas de aprendizaje automático clásico. Las contaminaciones corresponden a la presencia de granos de arroz sobre una superficie blanca.
 
-## Dataset
+Las imágenes con presencia de arroz se consideran ejemplos positivos, mientras que las imágenes sin arroz o con otros objetos corresponden a ejemplos negativos.
 
-El conjunto de datos está compuesto por 30 imágenes:
+---
 
-* 15 positivas (con presencia de arroz)
-* 15 negativas (sin arroz)
+## Construcción del dataset
 
-Las imágenes se encuentran organizadas en la carpeta `database/`, separadas en clases.
+Inicialmente se construyó un dataset individual compuesto por:
+
+- 15 imágenes positivas
+- 15 imágenes negativas
+
+Posteriormente, para la etapa de entrenamiento y evaluación, se utilizó un dataset grupal combinado a partir de los datos compartidos por varios estudiantes.
+
+El dataset final utilizado para el entrenamiento se encuentra en el archivo:
+
+dataset_grupo.csv
+
+Este contiene:
+
+- 118 muestras
+- 16384 características por imagen
+- 1 columna final correspondiente a la etiqueta
+
+---
 
 ## Preprocesamiento
 
-Las imágenes fueron procesadas mediante:
+Cada imagen fue procesada mediante:
 
-* Conversión a escala de grises
-* Redimensionamiento a 128×128 píxeles
-* Binarización (fondo = 1, objeto = 0)
+1. Conversión a escala de grises
+2. Redimensionamiento a 128×128 píxeles
+3. Binarización:
+   - 1 → fondo blanco
+   - 0 → presencia de objetos
 
-Las imágenes procesadas pueden encontrarse en la carpeta `procesadas/`.
+Las imágenes binarias fueron convertidas en vectores fila para construir el dataset tabular.
 
-## Generación del dataset
+---
 
-El script `crear_dataset.py` permite generar el archivo `dataset.csv`, donde:
+## Modelos evaluados
 
-* Cada fila representa una imagen
-* Cada columna representa un píxel (16384 en total)
-* La última columna corresponde a la etiqueta (1 o 0)
+Se entrenaron y compararon los siguientes modelos de clasificación clásica:
 
-## Archivos incluidos
+- K-Nearest Neighbors (KNN)
+- Support Vector Machine (SVM)
+- Decision Tree
+- Naive Bayes
 
-* `crear_dataset.py`: script principal
-* `dataset.csv`: conjunto de datos generado
-* `database/`: imágenes originales
-* `procesadas/`: imágenes procesadas
-* `Informe_Proyecto1.pdf`: informe del proyecto
+La evaluación se realizó utilizando:
+
+- partición estratificada 80/20
+- múltiples particiones con diferentes valores de `random_state`
+
+---
+
+## Resultados
+
+Los resultados mostraron que:
+
+- KNN presentó un desempeño deficiente y sesgo hacia la clase positiva
+- Decision Tree obtuvo resultados intermedios
+- SVM mostró un comportamiento estable y buen desempeño general
+- Naive Bayes obtuvo el mejor accuracy promedio considerando múltiples particiones
+
+Por esta razón, el modelo final seleccionado fue:
+
+Naive Bayes
+
+con un accuracy promedio de:
+
+0.8708
+
+---
+
+## Archivos principales
+
+| Archivo | Descripción |
+|---|---|
+| `crear_dataset.py` | Generación del dataset individual |
+| `unir_datasets.py` | Combinación de datasets grupales |
+| `entrenar_modelos.py` | Entrenamiento y evaluación de modelos |
+| `dataset.csv` | Dataset individual |
+| `dataset_grupo.csv` | Dataset grupal utilizado para entrenamiento |
+| `modelo_final.joblib` | Modelo final exportado |
+| `proyecto_IA.pdf` | Informe del proyecto |
+
+---
 
 ## Cómo ejecutar
 
-1. Instalar dependencias:
+1. Instalar dependencias
+python -m pip install opencv-python numpy pandas scikit-learn joblib
 
-```
-pip install opencv-python numpy pandas
-```
-
-2. Ejecutar:
-
-```
+2. Generar dataset individual
 python crear_dataset.py
-```
 
-## Autor
+3. Combinar datasets grupales
+python unir_datasets.py
 
-Luis Enrique Pereira
+4. Entrenar modelos y exportar modelo final
+python entrenar_modelos.py
+
+Autor
+
+Luis Enrique Pereira B. C05859. Universidad de Costa Rica. 2026.
